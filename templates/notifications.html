@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<h1>Notifications</h1>
+
+
+<form action="/clear_notifications" method="post" class="mb-3">
+    <button type="submit" class="btn btn-danger btn-sm">Clear All</button>
+  </form>
+  
+<ul class="list-group mt-4">
+  {% for note in notifications %}
+    <li class="list-group-item bg-dark text-white">
+      {{ note.message }}
+    </li>
+  {% else %}
+    <p>You have no notifications.</p>
+  {% endfor %}
+</ul>
+{% endblock %}

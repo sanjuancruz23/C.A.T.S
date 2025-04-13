@@ -1,0 +1,95 @@
+<!-- Reusable navbar -->
+<style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      padding: 1rem;
+    }
+  
+    .navbar h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  
+    .menu-icon {
+      cursor: pointer;
+    }
+  
+    .menu-icon div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 5px 0;
+    }
+  
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      background-color: #222;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 1000;
+    }
+  
+    .sidebar a {
+      padding: 10px 20px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: white;
+      display: block;
+      transition: 0.3s;
+    }
+  
+    .sidebar a:hover {
+      background-color: #333;
+    }
+  
+    .open-sidebar {
+      width: 200px;
+    }
+  </style>
+  
+  <div class="navbar">
+    <h1>C.A.T.S</h1>
+    <div class="menu-icon" onclick="toggleSidebar()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+  
+  <div id="sidebar" class="sidebar">
+
+    <a href="/notifications">
+      Notifications
+      {% if unread_notifications > 0 %}
+        <span class="badge bg-danger">{{ unread_notifications }}</span>
+      {% endif %}
+    </a>
+    
+    
+
+    <a href="/landing">Home</a>
+    <a href="/search">Search</a>
+    <a href="/return">Return Books</a>
+    <a href="/register">Register</a>
+    <a href="/">Login</a>
+    <a href="/logout" style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
+      Log Out
+    </a>
+    
+  </div>
+  
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('open-sidebar');
+    }
+  </script>
+  
