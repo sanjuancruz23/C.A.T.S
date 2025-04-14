@@ -5,7 +5,8 @@ from datetime import datetime
 
 # --- Setup ---
 app = Flask(__name__)
-app.secret_key = 'super-secret-key' # Need to change this later
+app.secret_key = 'super-secret-key'  # Need to change this later
+
 
 @app.context_processor
 def inject_unread_notifications():
@@ -18,10 +19,13 @@ def inject_unread_notifications():
 
 Base = declarative_base()
 
+
 def book_is_checked_out(book_id):
     return db.query(Checkout).filter_by(book_id=book_id).first() is not None
 
+
 app.jinja_env.globals.update(book_is_checked_out=book_is_checked_out)
+
 
 class Book(Base):
     __tablename__ = 'books'
@@ -32,17 +36,20 @@ class Book(Base):
     publish_date = Column(String)
     subject = Column(String)
 
+
 class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
 
+
 class Author(Base):
     __tablename__ = 'authors'
     id = Column(Integer, primary_key=True)
     author_key = Column(String, unique=True)
     name = Column(String)
+
 
 class Checkout(Base):
     __tablename__ = 'checkouts'
@@ -54,6 +61,7 @@ class Checkout(Base):
     user = relationship("User", backref="checkouts")
     book = relationship("Book")
 
+
 class Wishlist(Base):
     __tablename__ = 'wishlist'
     id = Column(Integer, primary_key=True)
@@ -62,6 +70,7 @@ class Wishlist(Base):
 
     user = relationship("User", backref="wishlist_items")
     book = relationship("Book")
+
 
 class Notification(Base):
     __tablename__ = 'notifications'
@@ -80,6 +89,7 @@ db = SessionLocal()
 
 Base.metadata.create_all(engine)
 
+
 # --- Search Route ---
 @app.route('/search')
 def search_books():
@@ -93,6 +103,7 @@ def search_books():
         author_map = {author.author_key: author.name for author in authors}
 
     return render_template('search.html', books=results, authors=author_map, query=query)
+
 
 # --- Login Route ---
 @app.route('/index', methods=['GET', 'POST'])
@@ -111,6 +122,7 @@ def login():
         return render_template('index.html')
 
     return render_template('index.html')
+
 
 # --- Register Route ---
 @app.route('/register', methods=['GET', 'POST'])
@@ -132,6 +144,7 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html')
+
 
 # --- Landing Route ---
 @app.route('/landing')
@@ -216,7 +229,6 @@ def checkout_from_wishlist():
     return redirect(url_for('landing'))
 
 
-
 # --- Logout Route ---
 @app.route('/logout')
 def logout():
@@ -251,12 +263,10 @@ def return_books():
                         )
                         db.add(note)
 
-
                 db.delete(checkout)
 
         db.commit()
         returned = True
-
 
     checkouts = db.query(Checkout).filter_by(user_id=user.id).all()
     return render_template('return.html', checkouts=checkouts, returned=returned)
@@ -282,6 +292,7 @@ def add_to_wishlist():
     db.commit()
     flash("Book added to wishlist!")
     return redirect(url_for('search_books'))
+
 
 # --- Notifications Route ---
 @app.route('/notifications')
@@ -314,6 +325,11 @@ def clear_notifications():
     return redirect(url_for('view_notifications'))
 
 
+@app.route('/')
+def home():
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
