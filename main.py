@@ -2,11 +2,11 @@ from flask import Flask, render_template, request, session, flash, redirect, url
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
+import seed_data
 
 # --- Setup ---
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'  # Need to change this later
-
 
 @app.context_processor
 def inject_unread_notifications():
@@ -117,9 +117,9 @@ def login():
         if user and user.password == password:
             session['username'] = username
             return redirect(url_for('landing'))
-
-        flash("Invalid username or password.")
-        return render_template('index.html')
+        else:
+            flash("Invalid username or password.")
+            return render_template('index.html')
 
     return render_template('index.html')
 
@@ -331,5 +331,11 @@ def home():
 
 
 if __name__ == '__main__':
+    Base.metadata.create_all(engine)
+    if not db.query(Book).first():
+        print("No books found....running seed data....")
+        seed_data.data_load()
+    else:
+        print("Books found...seed data not needed")
     app.run(debug=True)
 
