@@ -249,6 +249,7 @@ def return_books():
 
     if request.method == 'POST':
         return_ids = request.form.getlist('return_ids')
+        actually_returned = 0
         for checkout_id in return_ids:
             checkout = db.query(Checkout).filter_by(id=checkout_id, user_id=user.id).first()
             if checkout:
@@ -264,9 +265,14 @@ def return_books():
                         db.add(note)
 
                 db.delete(checkout)
+                actually_returned += 1
+        if actually_returned > 0:
+            db.commit()
+            returned = True
+        else:
+            flash("No book returned.")
 
-        db.commit()
-        returned = True
+
 
     checkouts = db.query(Checkout).filter_by(user_id=user.id).all()
     return render_template('return.html', checkouts=checkouts, returned=returned)
