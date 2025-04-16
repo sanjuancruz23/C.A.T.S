@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome | C.A.T.S{% endblock %}
+
+{% block content %}
+<style>
+  .book-cover {
+    width: 100%;
+    aspect-ratio: 16 / 21;
+    background-size: cover;
+    background-position: center;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+  }
+</style>
+
+<h1 class="mb-4">Welcome</h1>
+
+<!-- Checked Out Section -->
+<h3>Checked Out</h3>
+{% if checkouts %}
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
+    {% for item in checkouts %}
+      <div class="col">
+        <div class="card bg-secondary text-white h-100">
+          <img src="{{item.book.cover_image}}" style="padding: 50px;" alt="" class="">
+
+          <div class="card-body">
+            <h5 class="card-title">{{ item.book.title }}</h5>
+            <p class="card-text">
+              Author Key: {{ item.book.author_key }}<br>
+              Checked Out: {{ item.checkout_date.strftime('%B %d, %Y') }}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>You haven't checked out any books yet.</p>
+{% endif %}
+
+<!-- Wishlist Section -->
+<h3>Wishlist</h3>
+{% if wishlist %}
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+  {% for item in wishlist %}
+  <div class="col">
+    <div class="card bg-secondary text-white h-100">
+      <img src="{{item.book.cover_image}}" style="padding: 50px;" alt="" class="">
+
+      <div class="card-body">
+        <h5 class="card-title">{{ item.book.title }}</h5>
+        <p class="card-text">Author Key: {{ item.book.author_key }}</p>
+      
+        {% if not book_is_checked_out(item.book.id) %}
+          <form action="/checkout_from_wishlist" method="post">
+            <input type="hidden" name="book_id" value="{{ item.book.id }}">
+            <button class="btn btn-light btn-sm mt-2" type="submit">Check Out</button>
+          </form>
+        {% else %}
+          <p class="text-muted small mt-2">Checked out by someone else</p>
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+  <p>No books in your wishlist yet.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Search | C.A.T.S{% endblock %}
+
+{% block content %}
+<h2>Book Search</h2>
+
+<form action="/search" method="get" class="mb-4">
+  <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search by title...">
+</form>
+
+{% if books %}
+  <p>Found {{ books|length }} result(s):</p>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for book in books %}
+    <div class="col">
+      <div class="card bg-secondary text-white h-100">
+        <img src="{{book.cover_image}}" style="padding: 50px;" alt="" class="">
+        <div class="card-body">
+          <h5 class="card-title">{{ book.title }}</h5>
+          <p class="card-text">ISBN: {{ book.isbn }}</p>
+          <p class="card-text">Author: {{ authors.get(book.author_key, "Unknown") }}</p>
+          <p class="card-text">Published: {{ book.publish_date }}</p>
+          <p class="card-text">Genre: {{ book.subject }}</p>
+
+          <form action="/checkout" method="post">
+            <input type="hidden" name="book_id" value="{{ book.id }}">
+            <button class="btn btn-light mt-2" type="submit">Check Out</button>
+          </form>
+
+          {% if book_is_checked_out(book.id) %}
+            <form action="/wishlist" method="post">
+              <input type="hidden" name="book_id" value="{{ book.id }}">
+              <button class="btn btn-outline-light btn-sm mt-2" type="submit">Add to Wishlist</button>
+            </form>
+          {% endif %}
+
+          
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% elif query %}
+  <p>No results found.</p>
+{% endif %}
+{% endblock %}

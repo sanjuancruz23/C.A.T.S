@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>C.A.T.S Login</title>
+    <title>C.A.T.S Register</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
             margin: 0;
         }
 
-        .login-container {
+        .register-container {
             background-color: #111;
             padding: 3rem;
             border-radius: 10px;
@@ -24,12 +24,12 @@
             width: 400px;
         }
 
-        .login-container h1 {
+        .register-container h1 {
             margin: 0;
             font-size: 2.5rem;
         }
 
-        .login-container h2 {
+        .register-container h2 {
             margin: 0.5rem 0 2.5rem;
             font-size: 1.1rem;
             font-weight: normal;
@@ -64,44 +64,22 @@
         button:hover {
             background-color: #ddd;
         }
-
-        .flashes {
-        color: red;
-        font-weight: bold;
-        list-style: none;
-        padding: 0;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Login form container -->
-    <div class="login-container">
-        <h1>C.A.T.S</h1>
-        <h2>Catalogue and Tracking System</h2>
+<div class="register-container">
+    <h1>C.A.T.S</h1>
+    <h2>Catalogue and Tracking System</h2>
 
-        <!-- Login form -->
-        <form action="/index" method="POST">
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <button type="submit">Login</button>
+    <form method="post">
+        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <button type="submit">Register</button>
 
-            <p class="mt-3">Don't have an account? <a href="/register" class="text-info">Register here</a></p>
-
-        </form>
-    {%  with messages = get_flashed_messages() %}
-            {%  if messages %}
-                <ul class="flashes">
-                    {% for message in messages %}
-                        <li>Invalid Username/Password</li>
-                    {% endfor %}
-                </ul>
-            {%  endif %}
-        {% endwith %}
-
-    </div>
-
-
+        <p class="mt-3">Already have an account? <a href="/index" class="text-info">Login here</a></p>
+    </form>
+</div>
 
 </body>
 </html>
