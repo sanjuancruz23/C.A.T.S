@@ -23,7 +23,8 @@
     {% for item in checkouts %}
       <div class="col">
         <div class="card bg-secondary text-white h-100">
-          <div class="book-cover" style="background-image: url('https://via.placeholder.com/160x240');"></div>
+          <img src="{{item.book.cover_image}}" style="padding: 50px;" alt="" class="">
+
           <div class="card-body">
             <h5 class="card-title">{{ item.book.title }}</h5>
             <p class="card-text">
@@ -46,7 +47,8 @@
   {% for item in wishlist %}
   <div class="col">
     <div class="card bg-secondary text-white h-100">
-      <div class="book-cover" style="background-image: url('https://via.placeholder.com/160x240');"></div>
+      <img src="{{item.book.cover_image}}" style="padding: 50px;" alt="" class="">
+
       <div class="card-body">
         <h5 class="card-title">{{ item.book.title }}</h5>
         <p class="card-text">Author Key: {{ item.book.author_key }}</p>

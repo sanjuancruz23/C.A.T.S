@@ -7,7 +7,7 @@
   .book-cover {
     width: 100px;
     height: 150px;
-    background-color: #444;
+    background-color: #000000;
     border-radius: 5px;
     background-size: cover;
     background-position: center;
@@ -72,7 +72,8 @@
   <div class="book-grid">
     {% for item in checkouts %}
     <div class="book-item">
-      <div class="book-cover" style="background-image: url('https://via.placeholder.com/100x150');"></div>
+
+        <img src="{{item.book.cover_image}}" style="padding: 50px; width: 200px" alt="" class="">
       <label>
         <input type="checkbox" name="return_ids" value="{{ item.id }}"> {{ item.book.title }}
       </label>
