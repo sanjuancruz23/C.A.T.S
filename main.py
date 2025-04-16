@@ -8,6 +8,9 @@ import seed_data
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'  # Need to change this later
 
+Base = declarative_base()
+
+
 @app.context_processor
 def inject_unread_notifications():
     if 'username' in session:
@@ -16,9 +19,6 @@ def inject_unread_notifications():
             unread = db.query(Notification).filter_by(user_id=user.id, is_read=0).count()
             return dict(unread_notifications=unread)
     return dict(unread_notifications=0)
-
-
-Base = declarative_base()
 
 
 def book_is_checked_out(book_id):
@@ -58,7 +58,7 @@ class Checkout(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     book_id = Column(Integer, ForeignKey('books.id'))
-    checkout_date = Column(DateTime, default=datetime.utcnow)
+    checkout_date = Column(DateTime, default=datetime.utcnow())
 
     user = relationship("User", backref="checkouts")
     book = relationship("Book")
@@ -99,7 +99,7 @@ def search_books():
     results = []
     author_map = {}
     if query:
-        results = db.query(Book).filter(Book.title.ilike(f"%{query}%")).limit(50).all()
+        results = db.query(Book).filter(Book.title.like(f"%{query}%")).limit(50).all()
         keys = list(set(book.author_key for book in results if book.author_key))
         authors = db.query(Author).filter(Author.author_key.in_(keys)).all()
         author_map = {author.author_key: author.name for author in authors}
@@ -274,8 +274,6 @@ def return_books():
         else:
             flash("No book returned.")
 
-
-
     checkouts = db.query(Checkout).filter_by(user_id=user.id).all()
     return render_template('return.html', checkouts=checkouts, returned=returned)
 
@@ -346,4 +344,3 @@ if __name__ == '__main__':
     else:
         print("Books found...seed data not needed")
     app.run(debug=True)
-
