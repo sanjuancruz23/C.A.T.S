@@ -32,7 +32,7 @@ def data_load():
     books = [
 
         Book(title="Harry Potter and the Sorcerer's Stone", author_key="/authors/OL1A", isbn="978000001001",
-             publish_date="1997", subject="Fantasy"),
+             publish_date="1997", subject="Fantasy", cover_image="https://covers.openlibrary.org/b/id/14656856-L.jpg"),
         Book(title="Harry Potter and the Chamber of Secrets", author_key="/authors/OL1A", isbn="978000001002",
              publish_date="1998", subject="Fantasy"),
         Book(title="Harry Potter and the Prisoner of Azkaban", author_key="/authors/OL1A", isbn="978000001003",

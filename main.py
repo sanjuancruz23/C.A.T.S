@@ -12,8 +12,9 @@ app.secret_key = 'super-secret-key'  # Need to change this later
 def inject_unread_notifications():
     if 'username' in session:
         user = db.query(User).filter_by(username=session['username']).first()
-        unread = db.query(Notification).filter_by(user_id=user.id, is_read=0).count()
-        return dict(unread_notifications=unread)
+        if user:
+            unread = db.query(Notification).filter_by(user_id=user.id, is_read=0).count()
+            return dict(unread_notifications=unread)
     return dict(unread_notifications=0)
 
 
@@ -35,6 +36,7 @@ class Book(Base):
     isbn = Column(String)
     publish_date = Column(String)
     subject = Column(String)
+    cover_image = Column(String)
 
 
 class User(Base):

@@ -15,6 +15,7 @@
     {% for book in books %}
     <div class="col">
       <div class="card bg-secondary text-white h-100">
+        <img src="{{book.cover_image}}" style="padding: 50px;" alt="" class="">
         <div class="card-body">
           <h5 class="card-title">{{ book.title }}</h5>
           <p class="card-text">ISBN: {{ book.isbn }}</p>
