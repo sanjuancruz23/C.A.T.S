@@ -93,7 +93,7 @@
             {%  if messages %}
                 <ul class="flashes">
                     {% for message in messages %}
-                        <li>Invalid Username/Password</li>
+                        <li>{{ message }}</li>
                     {% endfor %}
                 </ul>
             {%  endif %}
