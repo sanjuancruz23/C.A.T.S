@@ -54,9 +54,19 @@
       width: 200px;
     }
   </style>
-  
-  <div class="navbar">
-    <h1>C.A.T.S</h1>
+
+<div class="navbar">
+    <h1 id = "title" style = "display: none";>C.A.T.S</h1>
+
+<script>
+  $(document).ready(function (){
+
+      $('#title').fadeIn(2000);
+
+  });
+
+</script>
+
     <div class="menu-icon" onclick="toggleSidebar()">
       <div></div>
       <div></div>
