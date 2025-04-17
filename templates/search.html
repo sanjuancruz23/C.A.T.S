@@ -28,7 +28,7 @@
             <button class="btn btn-light mt-2" type="submit">Check Out</button>
           </form>
 
-          {% if book_is_checked_out(book.id) %}
+          {% if book %}
             <form action="/wishlist" method="post">
               <input type="hidden" name="book_id" value="{{ book.id }}">
               <button class="btn btn-outline-light btn-sm mt-2" type="submit">Add to Wishlist</button>
